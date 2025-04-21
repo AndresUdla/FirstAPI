@@ -16,6 +16,7 @@ namespace FirstAPI.Controllers
             _estudianteRepository = new EstudianteRepository();
         }
 
+        [HttpGet]
         public IActionResult DevuelveListadoEstudiantes()
         {
             var estudiantes = _estudianteRepository.DevuelveListadoEstudiantes();
@@ -26,6 +27,9 @@ namespace FirstAPI.Controllers
             return NotFound();
         }
 
+        
+        [Route("InfoEstudiante/{BannerId}")]
+        [HttpGet]
         public IActionResult DevuelveInformacionEstudiante(string BannerId)
         {
             try 
@@ -34,7 +38,7 @@ namespace FirstAPI.Controllers
                 return Ok(informacionEstudiante);
             } catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
 
 
