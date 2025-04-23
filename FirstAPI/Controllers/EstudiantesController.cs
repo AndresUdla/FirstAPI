@@ -28,16 +28,17 @@ namespace FirstAPI.Controllers
             return NotFound();
         }
 
-        
+
         [Route("InfoEstudiante/{BannerId}")]
         [HttpGet]
         public IActionResult DevuelveInformacionEstudiante(string BannerId)
         {
-            try 
+            try
             {
                 var informacionEstudiante = _estudianteRepository.DevuelveInformacionEstudiante(BannerId);
                 return Ok(informacionEstudiante);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return NotFound();
             }
@@ -45,13 +46,53 @@ namespace FirstAPI.Controllers
 
 
         [HttpPost]
-        public IActionResult GuardarEstudiante([FromBody]Estudiante estudiante)
+        public IActionResult GuardarEstudiante([FromBody] Estudiante estudiante)
         {
-            if (estudiante != null)
+            try
             {
-                return Ok(estudiante);
+                if (estudiante != null)
+                {
+                    var guardado = _estudianteRepository.GuardarEstudiante(estudiante);
+                    if (guardado)
+                    {
+                        return Ok("Estudiante guardado correctamente");
+                    }
+                    else
+                    {
+                        return BadRequest("Error al guardar el estudiante");
+                    }
+                }
+                else
+                {
+                    return BadRequest("El estudiante no puede ser nulo");
+                }
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: ");
+            }
+        }
+
+        [HttpDelete]
+        [Route("EliminarEstudiante/{BannerId}")]
+        public IActionResult EliminarEstudiante(string BannerId)
+        {
+            try
+            {
+                var eliminado = _estudianteRepository.EliminarEstudiante(BannerId);
+                if (eliminado)
+                {
+                    return Ok("Estudiante eliminado correctamente");
+                }
+                else
+                {
+                    return NotFound("No se encontró el estudiante");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: ");
+            }
         }
     }
 }

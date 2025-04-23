@@ -5,10 +5,10 @@ namespace FirstAPI.Repository
 {
     public class EstudianteRepository : IEstudianteRepository
     {
-        public IEnumerable<Estudiante> DevuelveInformacionEstudiante(string BannerId)
+        public Estudiante DevuelveInformacionEstudiante(string BannerId)
         {
             var estudiantes = DevuelveListadoEstudiantes();
-            return estudiantes.Where(item => item.BannerId == BannerId); // Use 'Where' to return an IEnumerable  
+            return estudiantes.First(item => item.BannerId == BannerId); // Use 'Where' to return an IEnumerable  
         }
 
         public IEnumerable<Estudiante> DevuelveListadoEstudiantes()
@@ -35,5 +35,22 @@ namespace FirstAPI.Repository
 
             return estudiantes;
         }
+
+        public bool EliminarEstudiante(string BannerId)
+        {
+            //logica del negocio
+            return true;
+        }
+
+        public Boolean GuardarEstudiante(Estudiante estudiante)
+        {
+            if (estudiante != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+
     }
 }
