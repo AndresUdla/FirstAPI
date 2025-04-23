@@ -1,4 +1,5 @@
 ﻿using FirstAPI.Interfaces;
+using FirstAPI.Models;
 using FirstAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,10 +39,19 @@ namespace FirstAPI.Controllers
                 return Ok(informacionEstudiante);
             } catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return NotFound();
             }
+        }
 
 
+        [HttpPost]
+        public IActionResult GuardarEstudiante([FromBody]Estudiante estudiante)
+        {
+            if (estudiante != null)
+            {
+                return Ok(estudiante);
+            }
+            return NotFound();
         }
     }
 }
